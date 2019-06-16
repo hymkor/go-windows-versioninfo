@@ -43,7 +43,7 @@ type versionInfo struct {
 	fname  *uint16
 }
 
-func NewVersionInfo(fname string) (*versionInfo, error) {
+func New(fname string) (*versionInfo, error) {
 	_fname, err := syscall.UTF16PtrFromString(fname)
 	if err != nil {
 		return nil, err
@@ -151,8 +151,8 @@ func (vi *versionInfo) Item(key string) string {
 //	key := fmt.Sprintf(`\StringFileInfo\%04X%04X\LegalTranslation`, lang1,lang2)
 //}
 
-func GetVersionInfo(fname string) (*Version, error) {
-	vi, err := NewVersionInfo(fname)
+func get(fname string) (*Version, error) {
+	vi, err := New(fname)
 	if err != nil {
 		return nil, err
 	}

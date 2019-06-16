@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	v, err := versioninfo.GetVersionInfo(`C:\WINDOWS\system32\notepad.exe`)
+	v, err := versioninfo.Get(`C:\WINDOWS\system32\notepad.exe`)
 	if err != nil {
 		println(err.Error())
 		return
