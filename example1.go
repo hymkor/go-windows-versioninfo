@@ -1,10 +1,10 @@
-// +build ignore
+// +build example
 
 package main
 
 import (
 	"fmt"
-	"github.com/zetamatta/gowin-versioninfo"
+	"github.com/zetamatta/go-windows-versioninfo"
 )
 
 func main() {
