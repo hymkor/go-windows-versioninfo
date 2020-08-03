@@ -80,7 +80,7 @@ func New(fname string) (*versionInfo, error) {
 	}, nil
 }
 
-func (vi *versionInfo) Query(key string, f uintptr) (uintptr, error) {
+func (vi *versionInfo) query(key string, f uintptr) (uintptr, error) {
 	subBlock, err := syscall.UTF16PtrFromString(key)
 	if err != nil {
 		return 0, err
@@ -98,7 +98,7 @@ func (vi *versionInfo) Query(key string, f uintptr) (uintptr, error) {
 func (vi *versionInfo) Number() (file []uint, product []uint, err error) {
 	var f *vsFixedFileInfo
 
-	_, err = vi.Query(`\`, uintptr(unsafe.Pointer(&f)))
+	_, err = vi.query(`\`, uintptr(unsafe.Pointer(&f)))
 	if err != nil {
 		return nil, nil, err
 	}
@@ -119,7 +119,7 @@ func (vi *versionInfo) Number() (file []uint, product []uint, err error) {
 
 func (vi *versionInfo) Translation() (uint32, uint32) {
 	var pLangCode *uint32
-	vi.Query(`\VarFileInfo\Translation`, uintptr(unsafe.Pointer(&pLangCode)))
+	vi.query(`\VarFileInfo\Translation`, uintptr(unsafe.Pointer(&pLangCode)))
 	return *pLangCode, *(*uint32)(unsafe.Pointer(uintptr(unsafe.Pointer(pLangCode)) + unsafe.Sizeof(*pLangCode)))
 }
 
@@ -138,7 +138,7 @@ func utf16PtrToArray(p uintptr, size uintptr) []uint16 {
 
 func (vi *versionInfo) Item(key string) string {
 	var pStrInfo *uint16
-	length, _ := vi.Query(key, uintptr(unsafe.Pointer(&pStrInfo)))
+	length, _ := vi.query(key, uintptr(unsafe.Pointer(&pStrInfo)))
 	if length <= 0 {
 		return ""
 	}
